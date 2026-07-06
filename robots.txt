@@ -1,0 +1,81 @@
+# ============================================================
+# robots.txt for V-Marketers | https://v-marketers.com
+# Human-Centric B2B Growth Agency
+# ============================================================
+
+# Allow all major search engine crawlers
+User-agent: *
+Allow: /
+
+# Priority crawl paths
+Allow: /index.html
+Allow: /pages/
+Allow: /Service_Pages/
+
+# CSS/JS are intentionally NOT disallowed: Googlebot needs them
+# to render the page for mobile-first indexing.
+Disallow: /assets/v-marketers/v-marketers-media-kit-2026.pdf
+
+# Crawl delay (polite crawling)
+Crawl-delay: 5
+
+# ---- Google ----
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Googlebot-Image
+Allow: /assets/
+
+# ---- Bing ----
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 3
+
+# ---- Yahoo ----
+User-agent: Slurp
+Allow: /
+Crawl-delay: 3
+
+# ---- DuckDuckGo ----
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 3
+
+# ---- Yandex ----
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 5
+
+# ---- Baidu ----
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 10
+
+# ---- Facebook / LinkedIn Social Crawlers ----
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+# ---- Common Bad Bots ----
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SEMrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# ============================================================
+# Sitemap location
+# ============================================================
+Sitemap: https://v-marketers.com/sitemap.xml
