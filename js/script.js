@@ -252,8 +252,20 @@
 
     function initBarba() {
         if (typeof barba === 'undefined') return;
+
+        // Barba fetches the next page in the background to animate between them.
+        // Browsers block that background fetch when the site is opened directly
+        // from disk (file:// in the address bar) instead of served over http/https.
+        // In that case, skip Barba entirely so plain <a> navigation (which always
+        // works locally) takes over instead of leaving the page stuck mid-transition.
+        if (window.location.protocol === 'file:') {
+            console.info('V-Marketers: running from a local file, so animated page transitions are disabled (this needs http/https). Links will still work as normal navigation. Serve the folder with a local server (e.g. `npx serve`) to preview the transitions.');
+            return;
+        }
+
         barba.init({
             sync: true,
+            timeout: 8000,
             transitions: [{
                 name: 'fade',
                 leave: (data) => gsap.to(data.current.container, { opacity: 0, duration: 0.4 }),
@@ -261,7 +273,15 @@
                     window.scrollTo(0, 0);
                     return gsap.from(data.next.container, { opacity: 0, duration: 0.4 });
                 }
-            }]
+            }],
+            requestError: (trigger, action, url, response) => {
+                // If the background fetch fails for ANY reason (offline, blocked,
+                // slow connection, server error/404), fall back to a real full-page
+                // navigation instead of leaving the visitor on a broken screen.
+                console.warn('V-Marketers: page transition could not load the next page, falling back to a normal navigation.', { url, response });
+                window.location.href = url;
+                return false;
+            }
         });
         barba.hooks.after(() => {
             // Refresh Navbar/Footer with correct relative paths for the new URL
