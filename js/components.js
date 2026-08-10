@@ -81,7 +81,6 @@ window.injectComponents = () => {
         2nd Floor, Office No. 203, Khadi Machine Chowk,<br>
         Opp. Reliance Smart, Tyni Audyogic Wasahat,<br>
         Kondhwa, Pune, Maharashtra 411048, India<br>
-        <a href="tel:+917709751757" class="hover:text-orange-500 transition-colors">+91 77097 51757</a> &nbsp;·&nbsp;
         <a href="mailto:support@v-marketers.com" class="hover:text-orange-500 transition-colors">support@v-marketers.com</a>
     </address>
                             <div class="flex gap-3">
