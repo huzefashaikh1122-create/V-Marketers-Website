@@ -231,7 +231,7 @@ window.injectComponents = () => {
 
     // --- 2. Enterprise B2B Footer HTML String ---
     const footerHTML = `
-    <footer class="bg-slate-950 text-slate-300 border-t border-slate-800 pt-16 md:pt-24 pb-12" aria-labelledby="footer-heading">
+    <footer class="bg-slate-50 text-slate-700 border-t border-slate-200/90 pt-16 md:pt-24 pb-12" aria-labelledby="footer-heading">
         <h2 id="footer-heading" class="sr-only">Footer</h2>
         <div class="container mx-auto px-6 lg:px-12">
             <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-12 mb-16 md:mb-20">
@@ -239,32 +239,32 @@ window.injectComponents = () => {
                 <!-- Company Info & Badges -->
                 <div class="lg:col-span-4 space-y-6">
                     <a href="${basePath}index.html" class="inline-block">
-                        <img src="${basePath}assets/footer-logo.png" 
+                        <img src="${basePath}assets/union.png" 
                              alt="V-Marketers B2B Lead Gen Logo" 
                              width="180" height="70" loading="lazy"
-                             class="h-12 md:h-14 w-auto object-contain brightness-110">
+                             class="h-8 sm:h-10 w-auto object-contain">
                     </a>
-                    <p class="text-slate-400 text-sm leading-relaxed max-w-sm">
+                    <p class="text-slate-600 text-sm leading-relaxed max-w-sm">
                         Enterprise B2B Demand Generation & Content Syndication Agency. Delivering high-intent, 100% opt-in MQL, HQL, and BANT-qualified pipelines to B2B technology leaders worldwide.
                     </p>
                     
                     <!-- Compliance Badges -->
                     <div class="flex flex-wrap gap-2 pt-1">
-                        <span class="inline-flex items-center gap-1.5 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg text-[11px] font-bold text-emerald-400">
-                            <i class="fa-solid fa-check-double text-[10px]"></i> 100% Human & SMTP Verified
+                        <span class="inline-flex items-center gap-1.5 bg-white border border-slate-200 shadow-sm px-2.5 py-1 rounded-lg text-[11px] font-bold text-emerald-700">
+                            <i class="fa-solid fa-check-double text-[10px] text-emerald-600"></i> 100% Human & SMTP Verified
                         </span>
-                        <span class="inline-flex items-center gap-1.5 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg text-[11px] font-bold text-blue-400">
-                            <i class="fa-solid fa-shield-check text-[10px]"></i> CCPA / CPRA Ready
+                        <span class="inline-flex items-center gap-1.5 bg-white border border-slate-200 shadow-sm px-2.5 py-1 rounded-lg text-[11px] font-bold text-blue-700">
+                            <i class="fa-solid fa-shield-check text-[10px] text-blue-600"></i> CCPA / CPRA Ready
                         </span>
-                        <span class="inline-flex items-center gap-1.5 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg text-[11px] font-bold text-orange-400">
-                            <i class="fa-solid fa-envelope-circle-check text-[10px]"></i> CAN-SPAM Certified
+                        <span class="inline-flex items-center gap-1.5 bg-white border border-slate-200 shadow-sm px-2.5 py-1 rounded-lg text-[11px] font-bold text-orange-700">
+                            <i class="fa-solid fa-envelope-circle-check text-[10px] text-orange-600"></i> CAN-SPAM Certified
                         </span>
                     </div>
 
                     <div class="pt-2">
                         <a href="https://www.linkedin.com/company/v-marketers/" target="_blank" rel="noopener noreferrer" aria-label="Follow V-Marketers on LinkedIn"
-                            class="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-slate-900 text-slate-300 hover:bg-orange-500 hover:text-white border border-slate-800 transition-all text-xs font-semibold">
-                            <i class="fa-brands fa-linkedin text-base"></i>
+                            class="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-white text-slate-700 hover:bg-orange-500 hover:text-white hover:border-orange-500 border border-slate-200 shadow-sm transition-all text-xs font-semibold group">
+                            <i class="fa-brands fa-linkedin text-base text-blue-600 group-hover:text-white transition-colors"></i>
                             <span>Follow on LinkedIn</span>
                         </a>
                     </div>
@@ -272,53 +272,53 @@ window.injectComponents = () => {
 
                 <!-- B2B Solutions -->
                 <div class="lg:col-span-3">
-                    <h3 class="font-extrabold text-white mb-6 uppercase text-xs tracking-[0.2em] flex items-center gap-2">
+                    <h3 class="font-extrabold text-slate-900 mb-6 uppercase text-xs tracking-[0.2em] flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-orange-500"></span> Demand Gen Solutions
                     </h3>
                     <nav aria-label="B2B Demand Generation Solutions">
-                        <ul class="space-y-3.5 text-sm font-medium text-slate-400">
-                            <li><a href="${basePath}Service_Pages/content-syndication.html" class="hover:text-orange-400 transition-colors flex items-center justify-between">
-                                <span>Content Syndication</span> <span class="text-[9px] bg-orange-500/20 text-orange-400 px-1.5 py-0.5 rounded font-bold">Top</span>
+                        <ul class="space-y-3.5 text-sm font-medium text-slate-600">
+                            <li><a href="${basePath}Service_Pages/content-syndication.html" class="hover:text-orange-600 transition-colors flex items-center justify-between group">
+                                <span>Content Syndication</span> <span class="text-[9px] bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded font-bold border border-orange-200">Top</span>
                             </a></li>
-                            <li><a href="${basePath}Service_Pages/lead-generation.html" class="hover:text-orange-400 transition-colors">MQL & HQL Lead Generation</a></li>
-                            <li><a href="${basePath}Service_Pages/demand-generation.html" class="hover:text-orange-400 transition-colors">Account-Based Marketing (ABM)</a></li>
-                            <li><a href="${basePath}Service_Pages/email-marketing.html" class="hover:text-orange-400 transition-colors">Multi-Channel Email Outreach</a></li>
-                            <li><a href="${basePath}Service_Pages/content-marketing.html" class="hover:text-orange-400 transition-colors">B2B Content & Asset Strategy</a></li>
-                            <li><a href="${basePath}Service_Pages/lead-nurturing.html" class="hover:text-orange-400 transition-colors">Multi-Touch Lead Nurturing</a></li>
+                            <li><a href="${basePath}Service_Pages/lead-generation.html" class="hover:text-orange-600 transition-colors">MQL & HQL Lead Generation</a></li>
+                            <li><a href="${basePath}Service_Pages/demand-generation.html" class="hover:text-orange-600 transition-colors">Account-Based Marketing (ABM)</a></li>
+                            <li><a href="${basePath}Service_Pages/email-marketing.html" class="hover:text-orange-600 transition-colors">Multi-Channel Email Outreach</a></li>
+                            <li><a href="${basePath}Service_Pages/content-marketing.html" class="hover:text-orange-600 transition-colors">B2B Content & Asset Strategy</a></li>
+                            <li><a href="${basePath}Service_Pages/lead-nurturing.html" class="hover:text-orange-600 transition-colors">Multi-Touch Lead Nurturing</a></li>
                         </ul>
                     </nav>
                 </div>
 
                 <!-- Company & Governance -->
                 <div class="lg:col-span-2">
-                    <h3 class="font-extrabold text-white mb-6 uppercase text-xs tracking-[0.2em] flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-blue-500"></span> Company & Trust
+                    <h3 class="font-extrabold text-slate-900 mb-6 uppercase text-xs tracking-[0.2em] flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-600"></span> Company & Trust
                     </h3>
                     <nav aria-label="Company Links">
-                        <ul class="space-y-3.5 text-sm font-medium text-slate-400">
-                            <li><a href="${basePath}pages/about.html" class="hover:text-orange-400 transition-colors">About Us</a></li>
-                            <li><a href="${basePath}pages/services.html" class="hover:text-orange-400 transition-colors">Service Overview</a></li>
-                            <li><a href="${basePath}pages/contact.html" class="hover:text-orange-400 transition-colors">Book Strategy Call</a></li>
-                            <li><a href="${basePath}pages/privacy-policy.html" class="hover:text-orange-400 transition-colors">Privacy Policy</a></li>
-                            <li><a href="${basePath}pages/terms.html" class="hover:text-orange-400 transition-colors">Terms of Service</a></li>
+                        <ul class="space-y-3.5 text-sm font-medium text-slate-600">
+                            <li><a href="${basePath}pages/about.html" class="hover:text-orange-600 transition-colors">About Us</a></li>
+                            <li><a href="${basePath}pages/services.html" class="hover:text-orange-600 transition-colors">Service Overview</a></li>
+                            <li><a href="${basePath}pages/contact.html" class="hover:text-orange-600 transition-colors">Book Strategy Call</a></li>
+                            <li><a href="${basePath}pages/privacy-policy.html" class="hover:text-orange-600 transition-colors">Privacy Policy</a></li>
+                            <li><a href="${basePath}pages/terms.html" class="hover:text-orange-600 transition-colors">Terms of Service</a></li>
                         </ul>
                     </nav>
                 </div>
 
                 <!-- Enterprise Contact & Newsletter -->
                 <div class="lg:col-span-3 space-y-4">
-                    <h3 class="font-extrabold text-white mb-4 uppercase text-xs tracking-[0.2em] flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Pipeline Insights
+                    <h3 class="font-extrabold text-slate-900 mb-4 uppercase text-xs tracking-[0.2em] flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-600"></span> Pipeline Insights
                     </h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
+                    <p class="text-xs text-slate-600 leading-relaxed">
                         Join 12,000+ B2B CMOs receiving quarterly B2B intent signals, CPL benchmarks & syndication trends.
                     </p>
                     <form class="flex flex-col gap-2">
                         <label for="footer-email" class="sr-only">Business Email</label>
                         <input id="footer-email" type="email" placeholder="Enter work email..." required
-                            class="w-full rounded-xl border border-slate-800 bg-slate-900 px-4 py-3 text-xs text-white placeholder-slate-500 outline-none focus:ring-2 focus:ring-orange-500 transition-all" />
+                            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-xs text-slate-900 placeholder-slate-400 outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 shadow-sm transition-all" />
                         <button type="submit"
-                            class="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold px-4 py-3 rounded-xl transition-all text-xs uppercase tracking-wider">
+                            class="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold px-4 py-3 rounded-xl transition-all text-xs uppercase tracking-wider shadow-md shadow-orange-500/20">
                             Subscribe to Benchmarks
                         </button>
                     </form>
@@ -330,16 +330,16 @@ window.injectComponents = () => {
             </div>
 
             <!-- Bottom Sub-Footer -->
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-t border-slate-900 pt-8 text-xs text-slate-500">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-t border-slate-200 pt-8 text-xs text-slate-500">
                 <p class="text-center md:text-left">
-                    © <span id="current-year"></span> <strong class="text-slate-400">V-Marketers</strong>. Engineered for Enterprise Pipeline Growth.
+                    © <span id="current-year"></span> <strong class="text-slate-800 font-semibold">V-Marketers</strong>. Engineered for Enterprise Pipeline Growth.
                 </p>
-                <div class="flex flex-wrap justify-center md:justify-end gap-6 text-xs">
-                    <a href="${basePath}pages/privacy-policy.html" class="hover:text-orange-400 transition-colors">Privacy Policy</a>
-                    <a href="${basePath}pages/terms.html" class="hover:text-orange-400 transition-colors">Terms of Service</a>
-                    <a href="${basePath}pages/opt-out.html" class="hover:text-orange-400 transition-colors">Do Not Sell My Info / Opt-Out</a>
-                    <button id="open-cookie-preferences-btn" type="button" class="hover:text-orange-400 transition-colors focus:outline-none">Cookie Preferences</button>
-                    <a href="${basePath}pages/contact.html" class="hover:text-orange-400 transition-colors">Contact Support</a>
+                <div class="flex flex-wrap justify-center md:justify-end gap-6 text-xs font-medium">
+                    <a href="${basePath}pages/privacy-policy.html" class="hover:text-orange-600 text-slate-600 transition-colors">Privacy Policy</a>
+                    <a href="${basePath}pages/terms.html" class="hover:text-orange-600 text-slate-600 transition-colors">Terms of Service</a>
+                    <a href="${basePath}pages/opt-out.html" class="hover:text-orange-600 text-slate-600 transition-colors">Do Not Sell My Info / Opt-Out</a>
+                    <button id="open-cookie-preferences-btn" type="button" class="hover:text-orange-600 text-slate-600 transition-colors focus:outline-none font-medium">Cookie Preferences</button>
+                    <a href="${basePath}pages/contact.html" class="hover:text-orange-600 text-slate-600 transition-colors">Contact Support</a>
                 </div>
             </div>
         </div>
