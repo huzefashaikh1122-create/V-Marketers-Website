@@ -1,82 +1,18 @@
 /* Base Styles & Strict Mobile Overflow Fix */
 html, body {
-    font-family: 'Plus Jakarta Sans', 'Public Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     scroll-behavior: smooth;
     max-width: 100%; 
     width: 100%;
-    overflow-x: clip !important; /* Changed to clip! */
+    overflow-x: clip !important;
     position: relative;
     margin: 0;
     padding: 0;
 }
 
-@keyframes shimmer {
-    100% { transform: translateX(100%); }
-}
-
-
-/* Scrollbar Hiding */
+/* Scrollbar Hiding Utility */
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* Lenis Smooth Scroll Core */
-html.lenis { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto; }
-.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-
-/* ... keep the rest of your custom cursor and gradient CSS exactly the same ... */
-
-/* Scrollbar Hiding */
-.hide-scrollbar::-webkit-scrollbar { display: none; }
-.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* Lenis Smooth Scroll Core */
-html.lenis { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto; }
-.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-
-/* Custom Cursor */
-@media (pointer: fine) {
-    body, a, button, iframe, .interactive-img {
-        cursor: none !important;
-    }
-
-    .no-custom-cursor { cursor: pointer !important; }
-    .no-custom-cursor:hover ~ .custom-cursor { opacity: 0; }
-
-    .custom-cursor {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background-color: #ec5b13; /* Primary Orange */
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-        z-index: 99999;
-        transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, mix-blend-mode 0.3s ease, opacity 0.2s ease;
-        mix-blend-mode: difference;
-    }
-
-    .custom-cursor.hovered {
-        width: 45px;
-        height: 45px;
-        background-color: #ffffff;
-    }
-
-    .custom-cursor.img-hovered {
-        width: 60px;
-        height: 60px;
-        background-color: rgba(236, 91, 19, 0.8);
-        mix-blend-mode: normal;
-        backdrop-filter: blur(2px);
-    }
-}
-
-@media (pointer: coarse) {
-    .custom-cursor { display: none !important; }
-}
 
 /* Gradients & Shadows */
 .orange-gradient { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); }
@@ -84,22 +20,15 @@ html.lenis { height: auto; }
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    background-image: linear-gradient(to right, #ec5b13, #f97316);
+    background-image: linear-gradient(to right, #ea580c, #f97316);
 }
 
 .grey-shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
-.grey-shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
-.grey-shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
-.grey-shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
+.grey-shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04); }
+.grey-shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03); }
+.grey-shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.12); }
 
-/* SVG Path Animation (From Index) */
-.process-line-path {
-    stroke-dasharray: 8;
-    animation: dash 20s linear infinite;
-}
-@keyframes dash { to { stroke-dashoffset: -1000; } }
-
-/* Sticky Nav (From Privacy/Terms Pages) */
+/* Navigation links */
 .nav-link {
     border-left: 2px solid transparent;
     padding: 0.5rem 1rem;
@@ -108,43 +37,93 @@ html.lenis { height: auto; }
     transition: all 0.2s ease-in-out;
     display: block;
 }
-.nav-link:hover { color: #ec5b13; }
+.nav-link:hover { color: #ea580c; }
 .nav-link.active {
-    border-left-color: #ec5b13;
-    color: #ec5b13;
+    border-left-color: #ea580c;
+    color: #ea580c;
     font-weight: 700;
-    background-color: rgba(236, 91, 19, 0.05);
+    background-color: rgba(234, 88, 12, 0.05);
 }
-.dark .nav-link { color: #94a3b8; }
-.dark .nav-link:hover { color: #f97316; }
-.dark .nav-link.active {
-    color: #f97316;
-    border-left-color: #f97316;
-    background-color: rgba(249, 115, 22, 0.1);
-}
-
-/* Barba Transition States */
-.barba-leave-active,
-.barba-enter-active {
-    transition: opacity 0.5s ease-in-out;
-}
-
-/* Ensure the incoming container starts invisible */
-.is-transitioning {
-    opacity: 0;
-    visibility: hidden;
-}
-
-
-/* Index page animation Our Human-Centric Process*/
-@keyframes dash {
-  to {
-    stroke-dashoffset: -1000;
-  }
-}
-
 
 /* Sticky header fix for scroll to section contact page */
 #inquiryform {
-    scroll-margin-top: 150px; 
+    scroll-margin-top: 120px; 
+}
+
+/* ========================================================================= */
+/* Infinite Moving Logo Marquee Animation System                            */
+/* ========================================================================= */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  flex-shrink: 0;
+  width: max-content;
+  animation: marquee-left 38s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-fast {
+  display: flex;
+  flex-shrink: 0;
+  width: max-content;
+  animation: marquee-left 26s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-reverse {
+  display: flex;
+  flex-shrink: 0;
+  width: max-content;
+  animation: marquee-right 34s linear infinite;
+  will-change: transform;
+}
+
+.marquee-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.marquee-wrapper:hover .animate-marquee,
+.marquee-wrapper:hover .animate-marquee-fast,
+.marquee-wrapper:hover .animate-marquee-reverse {
+  animation-play-state: paused;
+}
+
+/* Gradient Mask for Smooth Faded Edges */
+.marquee-fade-edges {
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+
+/* Glassmorphism & Micro-borders */
+.glass-card-dark {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card-light {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
 }

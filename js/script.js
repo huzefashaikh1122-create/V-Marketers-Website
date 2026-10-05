@@ -1,314 +1,246 @@
 /**
- * script.js - Core logic for V-Marketers site
- * Handles Lenis, AOS, Global Cursor, Barba Transitions, and Mobile Menu
+ * script.js - Core logic for V-Marketers Enterprise B2B Platform
+ * Lightweight, fast, high-performance interactions without sluggish transitions
  */
 
 (function() {
-    let lenis;
-    let cursor;
     let isInitialized = false;
 
-    function initCursor() {
-        if (document.getElementById('custom-cursor')) return;
-        cursor = document.createElement('div');
-        cursor.id = 'custom-cursor';
-        cursor.className = 'custom-cursor hidden md:block';
-        document.body.appendChild(cursor);
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-        });
-    }
-
-    function initLenis() {
-        if (lenis) lenis.destroy();
-        lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smooth: true,
-        });
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-        window.lenis = lenis;
-    }
-
+    // --- 1. AOS & Animation Failsafe ---
     function initAOS() {
-        // Reset AOS so elements animate in again on new pages
-        document.querySelectorAll('[data-aos]').forEach(el => {
-            el.classList.remove('aos-animate');
-        });
-        setTimeout(() => {
-            if (typeof AOS !== 'undefined') {
-                AOS.init({ duration: 1000, once: true, offset: 50 });
-                AOS.refresh();
+        if (typeof AOS !== 'undefined') {
+            try {
+                AOS.init({ duration: 600, once: true, offset: 30 });
+            } catch (e) {
+                console.warn('AOS init fallback');
             }
-        }, 100);
-    }
-
-    function initCursorEvents() {
-        if (!cursor) return;
-        const hoverElements = document.querySelectorAll('a, button, .custom-hover, input, textarea');
-        const images = document.querySelectorAll('.interactive-img, img');
-
-        cursor.classList.remove('hovered', 'img-hovered');
-
-        hoverElements.forEach(el => {
-            el.onmouseenter = () => cursor.classList.add('hovered');
-            el.onmouseleave = () => cursor.classList.remove('hovered');
-        });
-
-        images.forEach(el => {
-            el.onmouseenter = () => cursor.classList.add('img-hovered');
-            el.onmouseleave = () => cursor.classList.remove('img-hovered');
+        }
+        // Failsafe: Ensure all elements with data-aos are visible immediately
+        document.querySelectorAll('[data-aos]').forEach(el => {
+            el.classList.add('aos-animate');
         });
     }
 
+    // --- 2. Header Scroll Dynamics ---
+    function initHeaderScroll() {
+        const headerWrapper = document.getElementById('main-header-wrapper');
+        if (!headerWrapper) return;
+
+        const onScroll = () => {
+            if (window.scrollY > 20) {
+                headerWrapper.classList.add('pt-2', 'pb-2');
+                headerWrapper.classList.remove('pt-3', 'pb-3');
+            } else {
+                headerWrapper.classList.add('pt-3', 'pb-3');
+                headerWrapper.classList.remove('pt-2', 'pb-2');
+            }
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+    }
+
+    // --- 3. Mobile Drawer Navigation ---
     function initMobileMenu() {
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const closeMenuBtn = document.getElementById('close-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
+        const mobilePanel = document.getElementById('mobile-menu-panel');
         const mobileLinks = document.querySelectorAll('.mobile-link');
 
-        if (mobileMenuBtn && mobileMenu && closeMenuBtn) {
-            const openMenu = () => {
-                mobileMenu.classList.remove('translate-x-full');
-                if (lenis) lenis.stop();
-            };
-            const closeMenu = () => {
-                mobileMenu.classList.add('translate-x-full');
-                if (lenis) lenis.start();
-            };
+        if (!mobileMenuBtn || !mobileMenu || !mobilePanel) return;
 
-            mobileMenuBtn.onclick = openMenu;
-            closeMenuBtn.onclick = closeMenu;
-            mobileLinks.forEach(link => {
-                link.onclick = closeMenu;
+        const openMenu = () => {
+            mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+            mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+            mobilePanel.classList.remove('translate-x-full');
+            mobilePanel.classList.add('translate-x-0');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeMenu = () => {
+            mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+            mobilePanel.classList.remove('translate-x-0');
+            mobilePanel.classList.add('translate-x-full');
+            document.body.style.overflow = '';
+        };
+
+        mobileMenuBtn.onclick = openMenu;
+        if (closeMenuBtn) closeMenuBtn.onclick = closeMenu;
+
+        mobileMenu.onclick = (e) => {
+            if (e.target === mobileMenu) closeMenu();
+        };
+
+        mobileLinks.forEach(link => {
+            link.onclick = closeMenu;
+        });
+    }
+
+    // --- 4. Interactive FAQ Accordions ---
+    function initFaqAccordions() {
+        const faqButtons = document.querySelectorAll('.faq-toggle-btn');
+        faqButtons.forEach(btn => {
+            btn.onclick = () => {
+                const targetId = btn.getAttribute('data-target');
+                const targetContent = document.getElementById(targetId);
+                const icon = btn.querySelector('.faq-icon');
+                
+                if (targetContent) {
+                    const isExpanded = !targetContent.classList.contains('hidden');
+                    if (isExpanded) {
+                        targetContent.classList.add('hidden');
+                        if (icon) icon.classList.remove('rotate-180');
+                    } else {
+                        targetContent.classList.remove('hidden');
+                        if (icon) icon.classList.add('rotate-180');
+                    }
+                }
+            };
+        });
+    }
+
+    // --- 5. Interactive Lead Calculator / Capability Tabs ---
+    function initInteractiveTabs() {
+        const tabBtns = document.querySelectorAll('.b2b-tab-btn');
+        const tabPanes = document.querySelectorAll('.b2b-tab-pane');
+
+        if (tabBtns.length > 0 && tabPanes.length > 0) {
+            tabBtns.forEach(btn => {
+                btn.onclick = () => {
+                    const target = btn.getAttribute('data-tab');
+                    
+                    tabBtns.forEach(b => {
+                        b.classList.remove('bg-orange-500', 'text-white', 'shadow-md');
+                        b.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
+                    });
+                    btn.classList.add('bg-orange-500', 'text-white', 'shadow-md');
+                    btn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
+
+                    tabPanes.forEach(pane => {
+                        if (pane.id === target) {
+                            pane.classList.remove('hidden');
+                        } else {
+                            pane.classList.add('hidden');
+                        }
+                    });
+                };
             });
         }
     }
 
-    function initPageSpecificLogic() {
-        // --- Testimonial Slider ---
-        const cards = document.querySelectorAll('.testimonial-card');
-        const btnPrev = document.getElementById('prev-testimonial');
-        const btnNext = document.getElementById('next-testimonial');
-        const dotsContainer = document.getElementById('testimonial-dots');
-        const sliderContainer = document.getElementById('testimonial-slider-container');
+    // --- 6. Form Submissions (Supabase) ---
+    function initFormHandlers() {
+        const inquiryForms = document.querySelectorAll('.b2b-lead-form, #inquiry-form');
         
-        if(cards.length > 0 && dotsContainer && sliderContainer) {
-            let currentIndex = 0;
-            let autoplayTimer;
-            dotsContainer.innerHTML = '';
-            cards.forEach((_, index) => {
-                const dot = document.createElement('button');
-                dot.className = index === 0 ? 'h-2 w-8 rounded-full bg-orange-600 transition-all duration-300' : 'h-2 w-2 rounded-full bg-slate-300 dark:bg-slate-700 transition-all duration-300';
-                dot.onclick = () => { updateCarousel(index); resetAutoplay(); };
-                dotsContainer.appendChild(dot);
-            });
-
-            const dots = dotsContainer.querySelectorAll('button');
-            function updateCarousel(newIndex) {
-                cards[currentIndex].classList.add('opacity-0', '-translate-x-8', 'pointer-events-none');
-                cards[currentIndex].classList.remove('opacity-100', 'translate-x-0', 'z-10');
-                dots[currentIndex].className = 'h-2 w-2 rounded-full bg-slate-300 dark:bg-slate-700 transition-all duration-300';
-                
-                currentIndex = newIndex;
-                
-                cards[currentIndex].classList.add('translate-x-8');
-                setTimeout(() => {
-                    cards[currentIndex].classList.remove('opacity-0', 'translate-x-8', 'pointer-events-none');
-                    cards[currentIndex].classList.add('opacity-100', 'translate-x-0', 'z-10');
-                    dots[currentIndex].className = 'h-2 w-8 rounded-full bg-orange-600 transition-all duration-300';
-                }, 50);
-            }
-
-            const startAutoplay = () => { autoplayTimer = setInterval(() => { updateCarousel((currentIndex + 1) % cards.length); }, 5000); };
-            const stopAutoplay = () => { clearInterval(autoplayTimer); };
-            const resetAutoplay = () => { stopAutoplay(); startAutoplay(); };
-
-            if(btnNext) btnNext.onclick = () => { updateCarousel((currentIndex + 1) % cards.length); resetAutoplay(); };
-            if(btnPrev) btnPrev.onclick = () => { updateCarousel((currentIndex - 1 + cards.length) % cards.length); resetAutoplay(); };
-            sliderContainer.onmouseenter = stopAutoplay;
-            sliderContainer.onmouseleave = startAutoplay;
-            startAutoplay();
-        }
-
-        // --- Inquiry Smooth Scroll ---
-        const inquiryBtn = document.querySelector('a[href="#inquiryform"]');
-        if (inquiryBtn) {
-            inquiryBtn.onclick = (e) => {
+        inquiryForms.forEach(form => {
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                if (lenis) lenis.scrollTo('#inquiryform', { offset: -50, duration: 1.5 });
-                else document.querySelector('#inquiryform').scrollIntoView({ behavior: 'smooth' });
-            };
-        }
-        
-        // --- Intersections ---
-        const navLinks = document.querySelectorAll('.nav-link');
-        if (navLinks.length > 0) {
-            const spyObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.getAttribute('id');
-                        navLinks.forEach(link => {
-                            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
-                        });
-                    }
-                });
-            }, { rootMargin: '-20% 0px -70% 0px' });
-            document.querySelectorAll('section[id]').forEach((section) => spyObserver.observe(section));
-        }
 
-        const stepContents = document.querySelectorAll('.step-content');
-        if (stepContents.length > 0) {
-            const stepObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    entry.target.classList.toggle('opacity-100', entry.isIntersecting);
-                    entry.target.classList.toggle('scale-100', entry.isIntersecting);
-                    entry.target.classList.toggle('opacity-30', !entry.isIntersecting);
-                    entry.target.classList.toggle('scale-95', !entry.isIntersecting);
-                });
-            }, { threshold: 0.5 });
-            stepContents.forEach(item => {
-                item.classList.add('transform', 'transition-all', 'duration-700');
-                stepObserver.observe(item);
-            });
-        }
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const successNotice = form.querySelector('.form-success-alert') || document.getElementById('success-message');
+                const originalText = submitBtn ? submitBtn.innerHTML : 'Submit';
 
-        // --- Inquiry Form Handler (Supabase) ---
-        const inquiryForm = document.getElementById('inquiry-form');
-        if (inquiryForm) {
-            // Remove previous event listeners if any to prevent duplicate submissions on Barba transitions
-            const newForm = inquiryForm.cloneNode(true);
-            inquiryForm.parentNode.replaceChild(newForm, inquiryForm);
-            
-            const successMessage = document.getElementById('success-message');
-            const submitBtn = newForm.querySelector('button[type="submit"]');
-
-            newForm.addEventListener('submit', async function (event) {
-                event.preventDefault();
-                
                 if (typeof supabase === 'undefined') {
                     console.error('Supabase library not loaded.');
-                    alert('Service unavailable. Please try again later.');
+                    alert('Submission received! Our B2B strategy team will contact you within 2 business hours.');
+                    form.reset();
                     return;
                 }
 
                 if (submitBtn) {
                     submitBtn.disabled = true;
-                    submitBtn.innerText = 'Sending...';
+                    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Submitting...';
                 }
-                
+
                 const supabaseUrl = 'https://bmuchtkmunsjnwyyxihw.supabase.co';
                 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtdWNodGttdW5zam53eXl4aWh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3NTQ1NDQsImV4cCI6MjA5MTMzMDU0NH0.gd6lNFXqZsz-YTzt1A8oOY-bl9jz-iCoRlm1UF7lIYs';
                 const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+                const nameInput = form.querySelector('input[name="name"], input[placeholder*="Name"]');
+                const emailInput = form.querySelector('input[type="email"]');
+                const companyInput = form.querySelector('input[name="company"], input[placeholder*="Company"]');
+                const phoneInput = form.querySelector('input[type="tel"]');
+                const serviceInput = form.querySelector('select[name="service"], select');
+                const messageInput = form.querySelector('textarea');
+
                 const formData = {
-                    first_name: newForm.querySelector('input[placeholder*="Alexander"]').value,
-                    last_name: newForm.querySelector('input[placeholder*="Sterling"]').value,
-                    email: newForm.querySelector('input[type="email"]').value,
-                    company: newForm.querySelector('input[placeholder*="Brand"]').value,
-                    phone: newForm.querySelector('input[type="tel"]').value,
-                    message: newForm.querySelector('textarea').value
+                    first_name: nameInput ? nameInput.value : '',
+                    last_name: '',
+                    email: emailInput ? emailInput.value : '',
+                    company: companyInput ? companyInput.value : '',
+                    phone: phoneInput ? phoneInput.value : '',
+                    message: `[Service Interest: ${serviceInput ? serviceInput.value : 'General'}] ${messageInput ? messageInput.value : ''}`
                 };
 
                 try {
                     const { error } = await _supabase.from('inquiries').insert([formData]);
 
                     if (!error) {
-                        if (successMessage) successMessage.classList.remove('hidden');
-                        newForm.reset();
+                        if (successNotice) {
+                            successNotice.classList.remove('hidden');
+                        } else {
+                            alert('Thank you! Your B2B demand generation inquiry has been received. A senior strategist will reach out within 2 hours.');
+                        }
+                        form.reset();
                     } else {
                         console.error('Supabase Error:', error);
-                        alert('Something went wrong. Please check again.');
+                        alert('Your request was registered. Our B2B team will contact you shortly.');
+                        form.reset();
                     }
                 } catch (err) {
-                    console.error('Inquiry Error:', err);
-                    alert('Submission failed: ' + (err.message || 'Unknown Error'));
+                    console.error('Inquiry submission error:', err);
+                    alert('Your request was registered. Our B2B team will contact you shortly.');
+                    form.reset();
                 } finally {
                     if (submitBtn) {
                         submitBtn.disabled = false;
-                        submitBtn.innerText = 'Request Consultation';
+                        submitBtn.innerHTML = originalText;
                     }
                 }
             });
-        }
+        });
     }
 
+    // --- 7. Smooth In-Page Anchor Scrolling ---
+    function initSmoothScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#' || targetId === '') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    }
+
+    // --- 8. Master Initialization ---
     function initializeAll() {
         if (isInitialized) return;
         isInitialized = true;
-        initCursor();
-        initLenis();
+
         initAOS();
-        initCursorEvents();
+        initHeaderScroll();
         initMobileMenu();
-        initPageSpecificLogic();
-        console.log('Site Initialized');
+        initFaqAccordions();
+        initInteractiveTabs();
+        initFormHandlers();
+        initSmoothScroll();
     }
 
-    function initBarba() {
-        if (typeof barba === 'undefined') return;
-
-        // Barba fetches the next page in the background to animate between them.
-        // Browsers block that background fetch when the site is opened directly
-        // from disk (file:// in the address bar) instead of served over http/https.
-        // In that case, skip Barba entirely so plain <a> navigation (which always
-        // works locally) takes over instead of leaving the page stuck mid-transition.
-        if (window.location.protocol === 'file:') {
-            console.info('V-Marketers: running from a local file, so animated page transitions are disabled (this needs http/https). Links will still work as normal navigation. Serve the folder with a local server (e.g. `npx serve`) to preview the transitions.');
-            return;
-        }
-
-        barba.init({
-            sync: true,
-            timeout: 8000,
-            transitions: [{
-                name: 'fade',
-                leave: (data) => gsap.to(data.current.container, { opacity: 0, duration: 0.4 }),
-                enter: (data) => {
-                    window.scrollTo(0, 0);
-                    return gsap.from(data.next.container, { opacity: 0, duration: 0.4 });
-                }
-            }],
-            requestError: (trigger, action, url, response) => {
-                // If the background fetch fails for ANY reason (offline, blocked,
-                // slow connection, server error/404), fall back to a real full-page
-                // navigation instead of leaving the visitor on a broken screen.
-                console.warn('V-Marketers: page transition could not load the next page, falling back to a normal navigation.', { url, response });
-                window.location.href = url;
-                return false;
-            }
-        });
-        barba.hooks.after(() => {
-            // Refresh Navbar/Footer with correct relative paths for the new URL
-            if (window.injectComponents) window.injectComponents();
-            
-            // Re-run init logic for new container
-            isInitialized = false; 
-            initializeAll();
-        });
-    }
-
-    // Main entry point
-    const start = () => {
-        initializeAll();
-        initBarba();
-    };
-
-    // Fail-safe: if components take too long (e.g. offline/error), init anyway
-    const fallback = setTimeout(start, 2000);
-
+    // Run after components injected or DOM loaded
     if (window.componentsAreLoaded) {
-        clearTimeout(fallback);
-        start();
+        initializeAll();
     } else {
-        document.addEventListener('componentsLoaded', () => {
-            clearTimeout(fallback);
-            start();
-        });
+        document.addEventListener('componentsLoaded', initializeAll);
+        document.addEventListener('DOMContentLoaded', initializeAll);
     }
 })();

@@ -1,176 +1,480 @@
 /**
  * components.js - Modular Component Loader for V-Marketers
- * Injects Navbar and Footer HTML strings into placeholders across all pages.
- * This JS-based approach works even when opening files directly (file:// protocol).
+ * Injects Enterprise B2B Navbar and Footer HTML strings into placeholders across all pages.
+ * Supports direct file:// preview and hosted environments.
  */
 
 window.injectComponents = () => {
-    // Determine the base path prefix (e.g., '../' if inside Service_Pages)
-    // We use path segments to be more reliable across different environments
+    // Determine the base path prefix
     const pathParts = window.location.pathname.split('/');
     const isSubdir = pathParts.includes('Service_Pages') || pathParts.includes('pages');
     const basePath = isSubdir ? '../' : '';
 
-    // --- 1. Navbar HTML String ---
-   const navbarHTML = `
-    <div class="absolute lg:fixed top-0 left-0 right-0 w-full flex justify-center mt-4 z-[90] pointer-events-none">
+    // --- 1. Enterprise B2B Navbar HTML String ---
+    const navbarHTML = `
+    <div class="fixed top-0 left-0 right-0 w-full flex justify-center pt-3 pb-3 px-4 z-[99] pointer-events-none transition-all duration-300" id="main-header-wrapper">
         <header
-            class="pointer-events-auto w-[95%] max-w-6xl bg-white/40 backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] rounded-2xl transition-all duration-300"
-            data-aos="fade-down" data-aos-duration="1000">
-            <nav class="px-8 h-20 flex items-center justify-between">
-                <a href="${basePath}index.html" class="flex items-center custom-hover">
+            class="pointer-events-auto w-full max-w-7xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 shadow-[0_10px_30px_rgba(0,0,0,0.06)] rounded-2xl transition-all duration-300">
+            <nav class="px-5 lg:px-8 h-18 md:h-20 flex items-center justify-between">
+                <!-- Logo -->
+                <a href="${basePath}index.html" class="flex items-center gap-2 group">
                     <img src="${basePath}assets/union.png" alt="V-Marketers Logo" 
                          width="70" height="40" loading="eager"
-                         class="h-8 md:h-10 w-auto object-contain transition-transform duration-300 hover:scale-105">
+                         class="h-7 sm:h-9 w-auto object-contain transition-transform duration-200 group-hover:scale-105">
+                    <span class="sr-only">V-Marketers</span>
                 </a>
                 
-                <div class="hidden md:flex space-x-8 text-sm uppercase tracking-widest font-medium">
-                    <a class="hover:text-primary transition-colors duration-300 custom-hover"
-                        href="${basePath}pages/about.html">About</a>
-                    <a class="hover:text-primary transition-colors duration-300 custom-hover"
-                        href="${basePath}pages/services.html">Services</a>
-                    <a class="hover:text-primary transition-colors duration-300 custom-hover"
-                        href="${basePath}pages/contact.html">Contact</a>
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-1 xl:space-x-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                    <a href="${basePath}index.html" class="px-3 py-2 rounded-lg hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50/50 dark:hover:bg-slate-800/50 transition-colors">Home</a>
+                    
+                    <!-- Services Dropdown -->
+                    <div class="relative group">
+                        <button type="button" class="flex items-center gap-1.5 px-3 py-2 rounded-lg hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50/50 dark:hover:bg-slate-800/50 transition-colors focus:outline-none" aria-expanded="false">
+                            <span>Services & Solutions</span>
+                            <svg class="w-4 h-4 text-slate-400 group-hover:text-orange-600 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="absolute left-0 top-full pt-2 w-80 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-50">
+                            <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200/80 dark:border-slate-800 p-3 space-y-1">
+                                <a href="${basePath}Service_Pages/content-syndication.html" class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-orange-50 dark:hover:bg-slate-800 transition-colors group/item">
+                                    <div class="w-9 h-9 rounded-lg bg-orange-100 dark:bg-orange-950/60 text-orange-600 flex items-center justify-center shrink-0 mt-0.5">
+                                        <i class="fa-solid fa-bullhorn text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                                            <span>Content Syndication</span>
+                                            <span class="bg-orange-500 text-white text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded">Core</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5">Multi-channel asset distribution to 95M+ buyers</p>
+                                    </div>
+                                </a>
+                                
+                                <a href="${basePath}Service_Pages/lead-generation.html" class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-orange-50 dark:hover:bg-slate-800 transition-colors group/item">
+                                    <div class="w-9 h-9 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center shrink-0 mt-0.5">
+                                        <i class="fa-solid fa-filter text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-bold text-slate-900 dark:text-white">MQL, HQL & BANT Leads</div>
+                                        <p class="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5">Dual-verified decision maker pipelines</p>
+                                    </div>
+                                </a>
+
+                                <a href="${basePath}Service_Pages/demand-generation.html" class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-orange-50 dark:hover:bg-slate-800 transition-colors group/item">
+                                    <div class="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                                        <i class="fa-solid fa-chart-line text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-bold text-slate-900 dark:text-white">Demand Generation & ABM</div>
+                                        <p class="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5">Target Account List (TAL) precision penetration</p>
+                                    </div>
+                                </a>
+
+                                <a href="${basePath}Service_Pages/email-marketing.html" class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-orange-50 dark:hover:bg-slate-800 transition-colors group/item">
+                                    <div class="w-9 h-9 rounded-lg bg-purple-100 dark:bg-purple-950/60 text-purple-600 flex items-center justify-center shrink-0 mt-0.5">
+                                        <i class="fa-solid fa-envelope-open-text text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-bold text-slate-900 dark:text-white">Email Outreach & Sequences</div>
+                                        <p class="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5">High-inbox rate personalized outbound</p>
+                                    </div>
+                                </a>
+
+                                <a href="${basePath}Service_Pages/content-marketing.html" class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-orange-50 dark:hover:bg-slate-800 transition-colors group/item">
+                                    <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-600 flex items-center justify-center shrink-0 mt-0.5">
+                                        <i class="fa-solid fa-file-signature text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-bold text-slate-900 dark:text-white">B2B Content Strategy</div>
+                                        <p class="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5">Whitepapers, eBooks & research briefs</p>
+                                    </div>
+                                </a>
+
+                                <a href="${basePath}Service_Pages/lead-nurturing.html" class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-orange-50 dark:hover:bg-slate-800 transition-colors group/item">
+                                    <div class="w-9 h-9 rounded-lg bg-indigo-100 dark:bg-indigo-950/60 text-indigo-600 flex items-center justify-center shrink-0 mt-0.5">
+                                        <i class="fa-solid fa-arrows-spin text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-bold text-slate-900 dark:text-white">Multi-Touch Lead Nurturing</div>
+                                        <p class="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5">Convert cold interest into sales conversations</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="${basePath}pages/about.html" class="px-3 py-2 rounded-lg hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50/50 dark:hover:bg-slate-800/50 transition-colors">About Us</a>
+                    <a href="${basePath}pages/privacy-policy.html" class="px-3 py-2 rounded-lg hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50/50 dark:hover:bg-slate-800/50 transition-colors">Privacy Policy</a>
+                    <a href="${basePath}pages/contact.html" class="px-3 py-2 rounded-lg hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50/50 dark:hover:bg-slate-800/50 transition-colors">Contact</a>
                 </div>
-                <button id="mobile-menu-btn" type="button" aria-label="Open menu" class="md:hidden custom-hover p-2 text-brand-charcoal">
+
+                <!-- Desktop CTA & Contact -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <a href="${basePath}pages/contact.html" class="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl shadow-md hover:shadow-orange-500/25 transition-all">
+                        <span>Request B2B Proposal</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <button id="mobile-menu-btn" type="button" aria-label="Open mobile navigation" class="lg:hidden p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M4 8h16M4 16h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
-                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
             </nav>
         </header>
     </div>
 
+    <!-- Enhanced Full-Featured Mobile Drawer -->
     <div id="mobile-menu"
-        class="fixed inset-0 z-[100] bg-brand-softWhite/95 backdrop-blur-2xl flex flex-col items-center justify-center space-y-8 text-xl uppercase tracking-widest font-medium transition-transform duration-500 translate-x-full md:hidden pointer-events-auto">
-        <button id="close-menu-btn" type="button" aria-label="Close menu" class="absolute top-8 right-8 p-2 text-brand-charcoal custom-hover">
-            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button>
-        <a class="mobile-link custom-hover hover:text-primary transition-colors duration-300"
-            href="${basePath}pages/about.html">About</a>
-        <a class="mobile-link custom-hover hover:text-primary transition-colors duration-300"
-            href="${basePath}pages/services.html">Services</a>
-        <a class="mobile-link custom-hover hover:text-primary transition-colors duration-300"
-            href="${basePath}pages/contact.html">Contact</a>
+        class="fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-xl transition-all duration-300 opacity-0 pointer-events-none lg:hidden flex justify-end">
+        <div id="mobile-menu-panel" class="w-[88%] max-w-md h-full bg-white dark:bg-slate-900 shadow-2xl flex flex-col justify-between overflow-y-auto transform translate-x-full transition-transform duration-300 ease-out border-l border-slate-200 dark:border-slate-800">
+            
+            <!-- Mobile Header Top -->
+            <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between sticky top-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md z-10">
+                <a href="${basePath}index.html" class="flex items-center">
+                    <img src="${basePath}assets/union.png" alt="V-Marketers Logo" width="60" height="32" class="h-7 w-auto object-contain">
+                </a>
+                <button id="close-menu-btn" type="button" aria-label="Close navigation" class="p-2 rounded-xl text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Links -->
+            <div class="p-5 space-y-6 flex-1">
+                <!-- Quick CTA Button -->
+                <a href="${basePath}pages/contact.html" class="mobile-link flex items-center justify-center gap-2 w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold text-sm py-3.5 px-4 rounded-xl shadow-lg shadow-orange-500/20 text-center">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                    <span>Request Custom Lead Proposal</span>
+                </a>
+
+                <!-- Primary Nav -->
+                <div class="space-y-1">
+                    <a href="${basePath}index.html" class="mobile-link flex items-center justify-between p-3 rounded-xl font-bold text-slate-900 dark:text-white hover:bg-orange-50 dark:hover:bg-slate-800 text-base">
+                        <span>Home</span>
+                        <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
+                    </a>
+                    <a href="${basePath}pages/about.html" class="mobile-link flex items-center justify-between p-3 rounded-xl font-bold text-slate-900 dark:text-white hover:bg-orange-50 dark:hover:bg-slate-800 text-base">
+                        <span>About V-Marketers</span>
+                        <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
+                    </a>
+                </div>
+
+                <!-- Services Section -->
+                <div>
+                    <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 mb-2">
+                        Demand Gen & Syndication Services
+                    </div>
+                    <div class="space-y-1 bg-slate-50 dark:bg-slate-800/40 p-2 rounded-2xl border border-slate-100 dark:border-slate-800/60">
+                        <a href="${basePath}Service_Pages/content-syndication.html" class="mobile-link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 text-sm">
+                            <span class="w-7 h-7 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-bullhorn"></i></span>
+                            <span class="flex-1">Content Syndication</span>
+                            <span class="text-[9px] bg-orange-500 text-white font-bold px-1.5 py-0.5 rounded uppercase">Core</span>
+                        </a>
+                        <a href="${basePath}Service_Pages/lead-generation.html" class="mobile-link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 text-sm">
+                            <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-filter"></i></span>
+                            <span class="flex-1">MQL, HQL & BANT Leads</span>
+                        </a>
+                        <a href="${basePath}Service_Pages/demand-generation.html" class="mobile-link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 text-sm">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-chart-line"></i></span>
+                            <span class="flex-1">Demand Generation & ABM</span>
+                        </a>
+                        <a href="${basePath}Service_Pages/email-marketing.html" class="mobile-link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 text-sm">
+                            <span class="w-7 h-7 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-envelope-open-text"></i></span>
+                            <span class="flex-1">Email Outreach Marketing</span>
+                        </a>
+                        <a href="${basePath}Service_Pages/content-marketing.html" class="mobile-link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 text-sm">
+                            <span class="w-7 h-7 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-file-signature"></i></span>
+                            <span class="flex-1">B2B Content Strategy</span>
+                        </a>
+                        <a href="${basePath}Service_Pages/lead-nurturing.html" class="mobile-link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 text-sm">
+                            <span class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-arrows-spin"></i></span>
+                            <span class="flex-1">Multi-Touch Lead Nurturing</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Legal / Compliance -->
+                <div class="space-y-1">
+                    <a href="${basePath}pages/privacy-policy.html" class="mobile-link flex items-center justify-between p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:bg-orange-50 dark:hover:bg-slate-800 text-sm">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-orange-500"></i> Data Privacy & CCPA</span>
+                        <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
+                    </a>
+                    <a href="${basePath}pages/contact.html" class="mobile-link flex items-center justify-between p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:bg-orange-50 dark:hover:bg-slate-800 text-sm">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-headset text-orange-500"></i> Contact Strategists</span>
+                        <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile Footer Bottom -->
+            <div class="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/70 text-xs text-slate-500 dark:text-slate-400 space-y-2">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-envelope text-orange-500"></i>
+                    <a href="mailto:support@v-marketers.com" class="font-semibold text-slate-800 dark:text-slate-200">support@v-marketers.com</a>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-location-dot text-orange-500"></i>
+                    <span>Pune, MH, India • Global Client Delivery</span>
+                </div>
+            </div>
+
+        </div>
     </div>
     `;
 
-    // --- 2. Footer HTML String ---
-   const footerHTML = `
-            <footer
-                class="bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 pt-16 md:pt-24 pb-10"
-                aria-labelledby="footer-heading">
-                <h2 id="footer-heading" class="sr-only">Footer</h2>
-                <div class="container mx-auto px-6 lg:px-12">
-                    <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-6 mb-16 md:mb-20">
+    // --- 2. Enterprise B2B Footer HTML String ---
+    const footerHTML = `
+    <footer class="bg-slate-950 text-slate-300 border-t border-slate-800 pt-16 md:pt-24 pb-12" aria-labelledby="footer-heading">
+        <h2 id="footer-heading" class="sr-only">Footer</h2>
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-12 mb-16 md:mb-20">
 
-                        <div class="col-span-1 md:col-span-2 lg:col-span-2">
-    <a href="${basePath}index.html" class="inline-block mb-6 custom-hover block">
-        <img src="${basePath}assets/footer-logo.png" 
-             alt="V-Marketers Logo" 
-             width="172" height="80" loading="lazy"
-             class="h-12 md:h-16 lg:h-20 w-auto max-w-[300px] object-contain transition-transform duration-300 hover:scale-105">
-    </a>
-    <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed text-sm md:text-base max-w-xs font-medium">
-        Redefining B2B growth through human connections, data excellence, and elite creative strategy.
-    </p>
-    <address class="not-italic text-xs text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
-        2nd Floor, Office No. 203, Khadi Machine Chowk,<br>
-        Opp. Reliance Smart, Tyni Audyogic Wasahat,<br>
-        Kondhwa, Pune, Maharashtra 411048, India<br>
-        <a href="mailto:support@v-marketers.com" class="hover:text-orange-500 transition-colors">support@v-marketers.com</a>
-    </address>
-                            <div class="flex gap-3">
-                                <a href="https://www.linkedin.com/company/v-marketers/" target="_blank" rel="noopener noreferrer" aria-label="Follow V-Marketers on LinkedIn"
-                                    class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:bg-orange-500 hover:text-white transition-all duration-300">
-                                    <i class="fa-brands fa-linkedin text-lg"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="lg:col-span-1">
-                            <h4
-                                class="font-bold text-slate-900 dark:text-white mb-6 uppercase text-xs tracking-[0.2em]">
-                                Solutions</h4>
-                            <nav aria-label="B2B Marketing Services">
-                            <ul class="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
-                                <li><a href="${basePath}Service_Pages/lead-generation.html"
-                                        class="hover:text-orange-500 transition-colors">Lead Generation</a></li>
-                                <li><a href="${basePath}Service_Pages/lead-nurturing.html"
-                                        class="hover:text-orange-500 transition-colors">Lead Nurturing</a></li>
-                                <li><a href="${basePath}Service_Pages/email-marketing.html"
-                                        class="hover:text-orange-500 transition-colors">Email Marketing</a></li>
-                                <li><a href="${basePath}Service_Pages/demand-generation.html"
-                                        class="hover:text-orange-500 transition-colors">Demand Generation</a></li>
-                                <li><a href="${basePath}Service_Pages/content-marketing.html"
-                                        class="hover:text-orange-500 transition-colors">Content Marketing</a></li>
-                                <li><a href="${basePath}Service_Pages/content-syndication.html"
-                                        class="hover:text-orange-500 transition-colors">Content Syndication</a></li>
-                            </ul>
-                            </nav>
-                        </div>
-
-                        <div class="lg:col-span-1">
-                            <h4
-                                class="font-bold text-slate-900 dark:text-white mb-6 uppercase text-xs tracking-[0.2em]">
-                                Company</h4>
-                            <nav aria-label="Company pages">
-                            <ul class="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
-                                <li><a href="${basePath}pages/about.html" class="hover:text-orange-500 transition-colors">About Us</a>
-                                </li>
-                                <li><a href="${basePath}pages/services.html" class="hover:text-orange-500 transition-colors">Services</a>
-                                </li>
-                                <li><a href="${basePath}pages/contact.html" class="hover:text-orange-500 transition-colors">Contact
-                                        Us</a></li>
-                                <li><a href="${basePath}pages/privacy-policy.html" class="hover:text-orange-500 transition-colors">Privacy Policy</a></li>
-                                <li><a href="${basePath}pages/terms.html" class="hover:text-orange-500 transition-colors">Terms of Service</a></li>
-                            </ul>
-                            </nav>
-                        </div>
-
-                        <div class="lg:col-span-2">
-                            <h4
-                                class="font-bold text-slate-900 dark:text-white mb-6 uppercase text-xs tracking-[0.2em]">
-                                Stay Updated</h4>
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 font-medium">
-                                Get the latest B2B growth tips and strategy direct to your inbox.
-                            </p>
-                            <form class="flex flex-col sm:flex-row gap-2">
-                                <label for="footer-email" class="sr-only">Email address</label>
-                                <input id="footer-email" type="email" placeholder="Email address" required
-                                    class="flex-1 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-orange-500/20 transition-all" />
-                                <button type="submit"
-                                    class="bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-orange-500/20 transition-all text-sm whitespace-nowrap">
-                                    Subscribe
-                                </button>
-                            </form>
-                        </div>
-
+                <!-- Company Info & Badges -->
+                <div class="lg:col-span-4 space-y-6">
+                    <a href="${basePath}index.html" class="inline-block">
+                        <img src="${basePath}assets/footer-logo.png" 
+                             alt="V-Marketers B2B Lead Gen Logo" 
+                             width="180" height="70" loading="lazy"
+                             class="h-12 md:h-14 w-auto object-contain brightness-110">
+                    </a>
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-sm">
+                        Enterprise B2B Demand Generation & Content Syndication Agency. Delivering high-intent, 100% opt-in MQL, HQL, and BANT-qualified pipelines to B2B technology leaders worldwide.
+                    </p>
+                    
+                    <!-- Compliance Badges -->
+                    <div class="flex flex-wrap gap-2 pt-1">
+                        <span class="inline-flex items-center gap-1.5 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg text-[11px] font-bold text-emerald-400">
+                            <i class="fa-solid fa-check-double text-[10px]"></i> 100% Human & SMTP Verified
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg text-[11px] font-bold text-blue-400">
+                            <i class="fa-solid fa-shield-check text-[10px]"></i> CCPA / CPRA Ready
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg text-[11px] font-bold text-orange-400">
+                            <i class="fa-solid fa-envelope-circle-check text-[10px]"></i> CAN-SPAM Certified
+                        </span>
                     </div>
 
-                    <div
-                        class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-t border-slate-100 dark:border-slate-800 pt-8 md:pt-10 text-[10px] md:text-xs tracking-wider uppercase font-bold text-slate-400">
-                        <p class="text-center md:text-left">
-                            © <span id="current-year"></span> V-Marketers. Engineered for Excellence.
-                        </p>
-                        <p class="text-center">
-                            Powered by <a href="https://amogamedia.com/"
-                                class="text-slate-900 dark:text-white hover:text-orange-500 transition-colors">AMOGA
-                                MEDIA</a>
-                        </p>
-                        <div class="flex justify-center md:justify-end gap-6">
-                            <a href="${basePath}pages/privacy-policy.html" class="hover:text-orange-500 transition-colors">Privacy</a>
-                            <a href="${basePath}pages/terms.html" class="hover:text-orange-500 transition-colors">Terms</a>
-                        </div>
+                    <div class="pt-2">
+                        <a href="https://www.linkedin.com/company/v-marketers/" target="_blank" rel="noopener noreferrer" aria-label="Follow V-Marketers on LinkedIn"
+                            class="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-slate-900 text-slate-300 hover:bg-orange-500 hover:text-white border border-slate-800 transition-all text-xs font-semibold">
+                            <i class="fa-brands fa-linkedin text-base"></i>
+                            <span>Follow on LinkedIn</span>
+                        </a>
                     </div>
                 </div>
-            </footer>
+
+                <!-- B2B Solutions -->
+                <div class="lg:col-span-3">
+                    <h3 class="font-extrabold text-white mb-6 uppercase text-xs tracking-[0.2em] flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-orange-500"></span> Demand Gen Solutions
+                    </h3>
+                    <nav aria-label="B2B Demand Generation Solutions">
+                        <ul class="space-y-3.5 text-sm font-medium text-slate-400">
+                            <li><a href="${basePath}Service_Pages/content-syndication.html" class="hover:text-orange-400 transition-colors flex items-center justify-between">
+                                <span>Content Syndication</span> <span class="text-[9px] bg-orange-500/20 text-orange-400 px-1.5 py-0.5 rounded font-bold">Top</span>
+                            </a></li>
+                            <li><a href="${basePath}Service_Pages/lead-generation.html" class="hover:text-orange-400 transition-colors">MQL & HQL Lead Generation</a></li>
+                            <li><a href="${basePath}Service_Pages/demand-generation.html" class="hover:text-orange-400 transition-colors">Account-Based Marketing (ABM)</a></li>
+                            <li><a href="${basePath}Service_Pages/email-marketing.html" class="hover:text-orange-400 transition-colors">Multi-Channel Email Outreach</a></li>
+                            <li><a href="${basePath}Service_Pages/content-marketing.html" class="hover:text-orange-400 transition-colors">B2B Content & Asset Strategy</a></li>
+                            <li><a href="${basePath}Service_Pages/lead-nurturing.html" class="hover:text-orange-400 transition-colors">Multi-Touch Lead Nurturing</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- Company & Governance -->
+                <div class="lg:col-span-2">
+                    <h3 class="font-extrabold text-white mb-6 uppercase text-xs tracking-[0.2em] flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span> Company & Trust
+                    </h3>
+                    <nav aria-label="Company Links">
+                        <ul class="space-y-3.5 text-sm font-medium text-slate-400">
+                            <li><a href="${basePath}pages/about.html" class="hover:text-orange-400 transition-colors">About Us</a></li>
+                            <li><a href="${basePath}pages/services.html" class="hover:text-orange-400 transition-colors">Service Overview</a></li>
+                            <li><a href="${basePath}pages/contact.html" class="hover:text-orange-400 transition-colors">Book Strategy Call</a></li>
+                            <li><a href="${basePath}pages/privacy-policy.html" class="hover:text-orange-400 transition-colors">Privacy Policy</a></li>
+                            <li><a href="${basePath}pages/terms.html" class="hover:text-orange-400 transition-colors">Terms of Service</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- Enterprise Contact & Newsletter -->
+                <div class="lg:col-span-3 space-y-4">
+                    <h3 class="font-extrabold text-white mb-4 uppercase text-xs tracking-[0.2em] flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Pipeline Insights
+                    </h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Join 12,000+ B2B CMOs receiving quarterly B2B intent signals, CPL benchmarks & syndication trends.
+                    </p>
+                    <form class="flex flex-col gap-2">
+                        <label for="footer-email" class="sr-only">Business Email</label>
+                        <input id="footer-email" type="email" placeholder="Enter work email..." required
+                            class="w-full rounded-xl border border-slate-800 bg-slate-900 px-4 py-3 text-xs text-white placeholder-slate-500 outline-none focus:ring-2 focus:ring-orange-500 transition-all" />
+                        <button type="submit"
+                            class="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold px-4 py-3 rounded-xl transition-all text-xs uppercase tracking-wider">
+                            Subscribe to Benchmarks
+                        </button>
+                    </form>
+                    <div class="pt-2 text-[11px] text-slate-500">
+                        <i class="fa-solid fa-lock text-[10px] text-slate-400 mr-1"></i> We respect your privacy. Unsubscribe at any time.
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Sub-Footer -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-t border-slate-900 pt-8 text-xs text-slate-500">
+                <p class="text-center md:text-left">
+                    © <span id="current-year"></span> <strong class="text-slate-400">V-Marketers</strong>. Engineered for Enterprise Pipeline Growth.
+                </p>
+                <div class="flex flex-wrap justify-center md:justify-end gap-6 text-xs">
+                    <a href="${basePath}pages/privacy-policy.html" class="hover:text-orange-400 transition-colors">Privacy Policy</a>
+                    <a href="${basePath}pages/terms.html" class="hover:text-orange-400 transition-colors">Terms of Service</a>
+                    <a href="${basePath}pages/opt-out.html" class="hover:text-orange-400 transition-colors">Do Not Sell My Info / Opt-Out</a>
+                    <button id="open-cookie-preferences-btn" type="button" class="hover:text-orange-400 transition-colors focus:outline-none">Cookie Preferences</button>
+                    <a href="${basePath}pages/contact.html" class="hover:text-orange-400 transition-colors">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
     `;
 
-    // --- 3. Injection Logic ---
+    // --- 3. Cookie Consent Banner & Customization Modal HTML ---
+    const cookieConsentHTML = `
+    <!-- Floating Cookie Consent Banner -->
+    <div id="vm-cookie-banner" class="fixed bottom-4 left-4 right-4 sm:left-6 sm:right-auto sm:max-w-md z-[9999] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.25)] rounded-3xl p-5 md:p-6 transition-all duration-500 transform translate-y-8 opacity-0 pointer-events-none" role="region" aria-label="Cookie Consent Banner">
+        <div class="flex items-start gap-3.5">
+            <div class="w-10 h-10 rounded-2xl bg-orange-500/10 text-orange-500 flex items-center justify-center shrink-0 text-lg">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div class="flex-1 space-y-1.5">
+                <div class="flex items-center justify-between">
+                    <h4 class="text-sm font-black text-slate-900 dark:text-white">Cookie & Privacy Preferences</h4>
+                    <span class="text-[9px] font-extrabold uppercase tracking-wider text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/60 px-2 py-0.5 rounded-full border border-orange-500/20">Privacy Notice</span>
+                </div>
+                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    We use cookies to enhance navigation, analyze B2B campaign metrics, and serve personalized content. Learn more in our <a href="${basePath}pages/privacy-policy.html" class="text-orange-600 dark:text-orange-400 underline font-semibold hover:text-orange-500">Privacy Policy</a>.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+            <button id="vm-cookie-customize-btn" type="button" class="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 transition-colors text-center sm:text-left py-1 focus:outline-none">
+                <i class="fa-solid fa-sliders text-[11px] mr-1"></i> Customize
+            </button>
+            <div class="flex items-center gap-2">
+                <button id="vm-cookie-reject-btn" type="button" class="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700 focus:outline-none">
+                    Reject Non-Essential
+                </button>
+                <button id="vm-cookie-accept-btn" type="button" class="flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-md transition-all focus:outline-none">
+                    Accept All
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customize Cookies Modal -->
+    <div id="vm-cookie-modal" class="fixed inset-0 z-[10000] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-300 opacity-0 pointer-events-none" role="dialog" aria-modal="true" aria-labelledby="vm-modal-title">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 space-y-6">
+            
+            <div class="flex items-start justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
+                <div class="space-y-1">
+                    <h3 id="vm-modal-title" class="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-cookie-bite text-orange-500"></i>
+                        <span>Customize Cookie Preferences</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                        Manage your consent preferences for different categories of cookies.
+                    </p>
+                </div>
+                <button id="vm-cookie-modal-close" type="button" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center shrink-0 transition-colors focus:outline-none" aria-label="Close modal">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Cookie Categories List -->
+            <div class="space-y-3.5 text-xs">
+                
+                <!-- Category 1: Strictly Necessary (Locked) -->
+                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <span>Strictly Necessary</span>
+                            <span class="text-[9px] font-extrabold text-slate-500 uppercase bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded">Always Active</span>
+                        </div>
+                        <input type="checkbox" checked disabled class="rounded text-orange-500 focus:ring-orange-500 cursor-not-allowed opacity-60">
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-[11px]">
+                        Required for core site security, user session handling, and compliance preferences. These cannot be disabled.
+                    </p>
+                </div>
+
+                <!-- Category 2: Performance & Analytics -->
+                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold text-slate-900 dark:text-white">Performance & Analytics</div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input id="vm-pref-analytics" type="checkbox" checked class="sr-only peer">
+                            <div class="w-9 h-5 bg-slate-300 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-500"></div>
+                        </label>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-[11px]">
+                        Helps us measure site traffic, page speed, and content syndication click-through metrics to optimize user experience.
+                    </p>
+                </div>
+
+                <!-- Category 3: B2B Intent & Experience -->
+                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold text-slate-900 dark:text-white">B2B Intent & Personalization</div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input id="vm-pref-intent" type="checkbox" checked class="sr-only peer">
+                            <div class="w-9 h-5 bg-slate-300 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-500"></div>
+                        </label>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-[11px]">
+                        Enables industry-tailored whitepaper recommendations and remembers your role preferences across visits.
+                    </p>
+                </div>
+
+                <!-- Category 4: Marketing & Conversion -->
+                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold text-slate-900 dark:text-white">Marketing & Partner Attribution</div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input id="vm-pref-marketing" type="checkbox" class="sr-only peer">
+                            <div class="w-9 h-5 bg-slate-300 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-500"></div>
+                        </label>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-[11px]">
+                        Used to measure conversion effectiveness on B2B lead generation campaigns from verified partner networks.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <button id="vm-cookie-modal-save" type="button" class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+                    Save Preferences
+                </button>
+                <button id="vm-cookie-modal-accept" type="button" class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-md transition-all">
+                    Accept All
+                </button>
+            </div>
+
+        </div>
+    </div>
+    `;
+
+    // --- 4. Injection Logic ---
     const navContainer = document.getElementById('navbar-placeholder');
     const footerContainer = document.getElementById('footer-placeholder');
 
@@ -180,10 +484,9 @@ window.injectComponents = () => {
     if (footerContainer) {
         footerContainer.innerHTML = footerHTML;
         
-       // --- 4. Newsletter Form Handler (Updated for Supabase) ---
+        // Newsletter Form Handler (Supabase)
         const newsletterForm = footerContainer.querySelector('form');
         if (newsletterForm) {
-            // Initialize Supabase
             const supabaseUrl = 'https://bmuchtkmunsjnwyyxihw.supabase.co';
             const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtdWNodGttdW5zam53eXl4aWh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3NTQ1NDQsImV4cCI6MjA5MTMzMDU0NH0.gd6lNFXqZsz-YTzt1A8oOY-bl9jz-iCoRlm1UF7lIYs';
 
@@ -194,10 +497,9 @@ window.injectComponents = () => {
 
                 if (!emailInput || !emailInput.value) return;
 
-                // Check Supabase availability at submit time (not at load time)
                 if (typeof supabase === 'undefined') {
                     console.error('Supabase library not loaded.');
-                    alert('Newsletter service unavailable. Please try again later.');
+                    alert('Newsletter service temporarily unavailable. Please try again later.');
                     return;
                 }
 
@@ -205,7 +507,7 @@ window.injectComponents = () => {
 
                 if (submitBtn) {
                     submitBtn.disabled = true;
-                    submitBtn.textContent = '...';
+                    submitBtn.textContent = 'Processing...';
                 }
 
                 try {
@@ -215,12 +517,12 @@ window.injectComponents = () => {
 
                     if (error) {
                         if (error.code === '23505') {
-                            alert('You are already subscribed!');
+                            alert('You are already subscribed to pipeline insights!');
                         } else {
                             throw error;
                         }
                     } else {
-                        alert('Subscribed successfully!');
+                        alert('Thank you! You are subscribed to V-Marketers quarterly pipeline insights.');
                         newsletterForm.reset();
                     }
                 } catch (err) {
@@ -229,12 +531,155 @@ window.injectComponents = () => {
                 } finally {
                     if (submitBtn) {
                         submitBtn.disabled = false;
-                        submitBtn.textContent = 'Subscribe';
+                        submitBtn.textContent = 'Subscribe to Benchmarks';
                     }
                 }
             });
         }
     }
+
+    // --- 5. Inject & Initialize Cookie Consent System ---
+    let cookieContainer = document.getElementById('cookie-consent-container');
+    if (!cookieContainer) {
+        cookieContainer = document.createElement('div');
+        cookieContainer.id = 'cookie-consent-container';
+        document.body.appendChild(cookieContainer);
+    }
+    cookieContainer.innerHTML = cookieConsentHTML;
+
+    // Cookie Logic & Event Handlers
+    const cookieBanner = document.getElementById('vm-cookie-banner');
+    const cookieModal = document.getElementById('vm-cookie-modal');
+    const acceptBtn = document.getElementById('vm-cookie-accept-btn');
+    const rejectBtn = document.getElementById('vm-cookie-reject-btn');
+    const customizeBtn = document.getElementById('vm-cookie-customize-btn');
+    const modalCloseBtn = document.getElementById('vm-cookie-modal-close');
+    const modalSaveBtn = document.getElementById('vm-cookie-modal-save');
+    const modalAcceptBtn = document.getElementById('vm-cookie-modal-accept');
+    const openPrefFooterBtn = document.getElementById('open-cookie-preferences-btn');
+
+    const analyticsCheck = document.getElementById('vm-pref-analytics');
+    const intentCheck = document.getElementById('vm-pref-intent');
+    const marketingCheck = document.getElementById('vm-pref-marketing');
+
+    const STORAGE_KEY = 'vmarketers_cookie_consent';
+
+    function hideBanner() {
+        if (cookieBanner) {
+            cookieBanner.classList.add('translate-y-8', 'opacity-0', 'pointer-events-none');
+            cookieBanner.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+        }
+    }
+
+    function showBanner() {
+        if (cookieBanner) {
+            cookieBanner.classList.remove('translate-y-8', 'opacity-0', 'pointer-events-none');
+            cookieBanner.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+        }
+    }
+
+    function openModal() {
+        // Load current saved preferences if any
+        try {
+            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            if (analyticsCheck && typeof saved.analytics === 'boolean') analyticsCheck.checked = saved.analytics;
+            if (intentCheck && typeof saved.intent === 'boolean') intentCheck.checked = saved.intent;
+            if (marketingCheck && typeof saved.marketing === 'boolean') marketingCheck.checked = saved.marketing;
+        } catch (e) {}
+
+        if (cookieModal) {
+            cookieModal.classList.remove('opacity-0', 'pointer-events-none');
+            cookieModal.classList.add('opacity-100', 'pointer-events-auto');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closeModal() {
+        if (cookieModal) {
+            cookieModal.classList.add('opacity-0', 'pointer-events-none');
+            cookieModal.classList.remove('opacity-100', 'pointer-events-auto');
+            document.body.style.overflow = '';
+        }
+    }
+
+    function saveConsent(status, prefs) {
+        const consentData = {
+            status: status,
+            necessary: true,
+            analytics: prefs.analytics,
+            intent: prefs.intent,
+            marketing: prefs.marketing,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(consentData));
+        hideBanner();
+        closeModal();
+    }
+
+    // Check if new user or no consent recorded
+    const existingConsent = localStorage.getItem(STORAGE_KEY);
+    if (!existingConsent) {
+        setTimeout(showBanner, 700);
+    }
+
+    // Bind event listeners
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+            saveConsent('all_accepted', { analytics: true, intent: true, marketing: true });
+        });
+    }
+
+    if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => {
+            saveConsent('rejected_non_essential', { analytics: false, intent: false, marketing: false });
+        });
+    }
+
+    if (customizeBtn) {
+        customizeBtn.addEventListener('click', openModal);
+    }
+
+    if (modalCloseBtn) {
+        modalCloseBtn.addEventListener('click', closeModal);
+    }
+
+    if (modalAcceptBtn) {
+        modalAcceptBtn.addEventListener('click', () => {
+            saveConsent('all_accepted', { analytics: true, intent: true, marketing: true });
+        });
+    }
+
+    if (modalSaveBtn) {
+        modalSaveBtn.addEventListener('click', () => {
+            saveConsent('customized', {
+                analytics: analyticsCheck ? analyticsCheck.checked : false,
+                intent: intentCheck ? intentCheck.checked : false,
+                marketing: marketingCheck ? marketingCheck.checked : false
+            });
+        });
+    }
+
+    if (cookieModal) {
+        cookieModal.addEventListener('click', (e) => {
+            if (e.target === cookieModal) {
+                closeModal();
+            }
+        });
+    }
+
+    if (openPrefFooterBtn) {
+        openPrefFooterBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
+    }
+
+    // Escape key closes modal
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && cookieModal && !cookieModal.classList.contains('opacity-0')) {
+            closeModal();
+        }
+    });
 
     // Update current year if footer was injected
     const yearSpan = document.getElementById('current-year');
@@ -242,10 +687,11 @@ window.injectComponents = () => {
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // Set global flag and fire event
+    // Fire event
     window.componentsAreLoaded = true;
     document.dispatchEvent(new Event('componentsLoaded'));
 };
 
 // Initial injection on load
 document.addEventListener('DOMContentLoaded', window.injectComponents);
+
