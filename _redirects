@@ -1,0 +1,18 @@
+# Netlify Redirects & URL Normalization
+/service_pages/*  /Service_Pages/:splat  301
+/service-pages/*  /Service_Pages/:splat  301
+
+# Clean URLs rewrites
+/pages/about                    /pages/about.html                    200
+/pages/services                 /pages/services.html                 200
+/pages/contact                  /pages/contact.html                  200
+/pages/privacy-policy           /pages/privacy-policy.html           200
+/pages/terms                    /pages/terms.html                    200
+/pages/opt-out                  /pages/opt-out.html                  200
+
+/Service_Pages/content-syndication  /Service_Pages/content-syndication.html  200
+/Service_Pages/lead-generation      /Service_Pages/lead-generation.html      200
+/Service_Pages/demand-generation    /Service_Pages/demand-generation.html    200
+/Service_Pages/email-marketing      /Service_Pages/email-marketing.html      200
+/Service_Pages/content-marketing    /Service_Pages/content-marketing.html    200
+/Service_Pages/lead-nurturing       /Service_Pages/lead-nurturing.html       200

@@ -5,9 +5,17 @@
  */
 
 window.injectComponents = () => {
-    // Determine the base path prefix
-    const pathParts = window.location.pathname.split('/');
-    const isSubdir = pathParts.includes('Service_Pages') || pathParts.includes('pages');
+    // Determine the base path prefix robustly across local file://, Netlify, and subpath URLs
+    const currentPath = (window.location.pathname || '').replace(/\\/g, '/').toLowerCase();
+    const currentHref = (window.location.href || '').replace(/\\/g, '/').toLowerCase();
+    const pathSegments = currentPath.split('/').filter(Boolean);
+
+    const isSubdir = pathSegments.some(seg => seg === 'service_pages' || seg === 'pages') ||
+                     currentPath.includes('/service_pages/') ||
+                     currentPath.includes('/pages/') ||
+                     currentHref.includes('/service_pages/') ||
+                     currentHref.includes('/pages/');
+
     const basePath = isSubdir ? '../' : '';
 
     // --- 1. Enterprise B2B Navbar HTML String ---
@@ -106,8 +114,8 @@ window.injectComponents = () => {
                         </div>
                     </div>
 
+                    <a href="${basePath}pages/services.html" class="px-3 py-2 rounded-lg hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50/50 dark:hover:bg-slate-800/50 transition-colors">Services</a>
                     <a href="${basePath}pages/about.html" class="px-3 py-2 rounded-lg hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50/50 dark:hover:bg-slate-800/50 transition-colors">About Us</a>
-                    <a href="${basePath}pages/privacy-policy.html" class="px-3 py-2 rounded-lg hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50/50 dark:hover:bg-slate-800/50 transition-colors">Privacy Policy</a>
                     <a href="${basePath}pages/contact.html" class="px-3 py-2 rounded-lg hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50/50 dark:hover:bg-slate-800/50 transition-colors">Contact</a>
                 </div>
 
@@ -160,6 +168,10 @@ window.injectComponents = () => {
                         <span>Home</span>
                         <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
                     </a>
+                    <a href="${basePath}pages/services.html" class="mobile-link flex items-center justify-between p-3 rounded-xl font-bold text-slate-900 dark:text-white hover:bg-orange-50 dark:hover:bg-slate-800 text-base">
+                        <span>All Services Overview</span>
+                        <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
+                    </a>
                     <a href="${basePath}pages/about.html" class="mobile-link flex items-center justify-between p-3 rounded-xl font-bold text-slate-900 dark:text-white hover:bg-orange-50 dark:hover:bg-slate-800 text-base">
                         <span>About V-Marketers</span>
                         <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
@@ -204,6 +216,14 @@ window.injectComponents = () => {
                 <div class="space-y-1">
                     <a href="${basePath}pages/privacy-policy.html" class="mobile-link flex items-center justify-between p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:bg-orange-50 dark:hover:bg-slate-800 text-sm">
                         <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-orange-500"></i> Data Privacy & CCPA</span>
+                        <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
+                    </a>
+                    <a href="${basePath}pages/terms.html" class="mobile-link flex items-center justify-between p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:bg-orange-50 dark:hover:bg-slate-800 text-sm">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-file-contract text-orange-500"></i> Terms of Service</span>
+                        <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
+                    </a>
+                    <a href="${basePath}pages/opt-out.html" class="mobile-link flex items-center justify-between p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:bg-orange-50 dark:hover:bg-slate-800 text-sm">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-user-xmark text-orange-500"></i> Do Not Sell / Opt-Out</span>
                         <i class="fa-solid fa-angle-right text-xs text-slate-400"></i>
                     </a>
                     <a href="${basePath}pages/contact.html" class="mobile-link flex items-center justify-between p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:bg-orange-50 dark:hover:bg-slate-800 text-sm">
